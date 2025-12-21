@@ -1,24 +1,24 @@
-class DesignPattern {
+class Engine {
   constructor({
     id,
-    name,
-    category,
+    model,
+    type,
     description,
-    isCreational,
+    isTurbo,
     createdAt,
-    examples
+    applications
   }) {
     this.id = id ?? Date.now();
-    this.name = name;
-    this.category = category;
+    this.model = model;
+    this.type = type;
     this.description = description;
-    this.isCreational = isCreational;
+    this.isTurbo = isTurbo;
     this.createdAt = createdAt ?? new Date().toISOString();
-    this.examples = examples ?? [];
+    this.applications = applications ?? [];
   }
 
   static create(data) {
-    return new DesignPattern({
+    return new Engine({
       ...data,
       id: Date.now(),
       createdAt: new Date().toISOString()
@@ -26,11 +26,11 @@ class DesignPattern {
   }
 
   update(data) {
-    this.name = data.name ?? this.name;
-    this.category = data.category ?? this.category;
+    this.model = data.model ?? this.model;
+    this.type = data.type ?? this.type;
     this.description = data.description ?? this.description;
-    this.isCreational = data.isCreational ?? this.isCreational;
-    this.examples = data.examples ?? this.examples;
+    this.isTurbo = data.isTurbo ?? this.isTurbo;
+    this.applications = data.applications ?? this.applications;
   }
 
   patch(data) {
@@ -44,4 +44,4 @@ class DesignPattern {
   }
 }
 
-module.exports = DesignPattern;
+module.exports = Engine;
