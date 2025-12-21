@@ -25,39 +25,61 @@ class Router {
       DELETE: []
     };
   }
-  getRoutes() {
-    return this.routes;
-  }
-  setRoutes(value){
-    this.routes=value;
-  }
-  addRoute(method, path,handler){
+
+  addRoute(method, path, handler) {
     const normMethod = method.toUpperCase();
-    if(!this.routes[normMethod]){
-      throw new Error(HTTP, '${normMethod} не поддерживается ');
+    if (!this.routes[normMethod]) {
+      throw new Error(`HTTP метод ${normMethod} не поддерживается`);
     }
-    if(typeof handler!=='function'){
-      throw new Error('Handler д.б функцией')
-    }
+
+    const paramNames = [];
+    const regexPath = path.replace(/:([a-zA-Z0-9]+)/g, (_, name) => {
+      paramNames.push(name);
+      return '([^/]+)';
+    });
+
     this.routes[normMethod].push({
       path,
-      handler
+      handler,
+      regex: new RegExp(`^${regexPath}$`),
+      paramNames
     });
   }
+
+  findRoute(method, url) {
+    const normMethod = method.toUpperCase();
+    const [pathname, queryString] = url.split('?');
+    
+    const routes = this.routes[normMethod];
+    if (!routes) return null;
+
+    for (const route of routes) {
+      const match = pathname.match(route.regex);
+      if (match) {
+        const params = {};
+        route.paramNames.forEach((name, index) => {
+          params[name] = match[index + 1];
+        });
+
+        const query = this._parseQuery(queryString);
+
+        return {
+          handler: route.handler,
+          params,
+          query
+        };
+      }
+    }
+    return null;
+  }
+  _parseQuery(queryString) {
+    const query = {};
+    if (!queryString) return query;
+    const pairs = queryString.split('&');
+    for (const pair of pairs) {
+      const [key, value] = pair.split('=');
+      query[decodeURIComponent(key)] = decodeURIComponent(value || '');
+    }
+    return query;
+  }
 }
-
-
-
-
-const router=new Router();
-function homeHand(){
-  console.log("Home");
-}
-function loginHand(){
-  console.log('Login');
-}
-router.addRoute('get','/home',homeHand);
-router.addRoute('post','/login',loginHand);
-console.log(router.getRoutes());
-router.getRoutes().GET[0].handler();
-router.getRoutes().POST[0].handler();
