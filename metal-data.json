@@ -1,0 +1,57 @@
+{
+    "metalProducts": [
+        {
+            "id": "metal-1736935200000",
+            "name": "Structural Steel A36",
+            "type": "steel",
+            "weight": 2500,
+            "purity": 99.5,
+            "pricePerKg": 52,
+            "productionDate": "2024-01-15T08:00:00Z",
+            "factory": "SteelWorks Moscow"
+        },
+        {
+            "id": "metal-1736935260000",
+            "name": "Aircraft Aluminum 6061",
+            "type": "aluminum",
+            "weight": 1350,
+            "purity": 99.7,
+            "pricePerKg": 155,
+            "productionDate": "2024-01-14T10:15:00Z",
+            "factory": "AviaMetals"
+        },
+        {
+            "id": "metal-1736935320000",
+            "name": "Electrical Copper Wire",
+            "type": "copper",
+            "weight": 850,
+            "purity": 99.9,
+            "pricePerKg": 320,
+            "productionDate": "2024-01-13T14:30:00Z",
+            "factory": "ElectroMetals"
+        },
+        {
+            "id": "metal-1736935380000",
+            "name": "Investment Gold Bar 24K",
+            "type": "gold",
+            "weight": 12.5,
+            "purity": 99.99,
+            "pricePerKg": 5200000,
+            "productionDate": "2024-01-12T09:45:00Z",
+            "factory": "Gold Reserve Bank"
+        }
+    ],
+    "factoryInfo": {
+        "name": "Metallurgical Industrial Complex",
+        "location": "Chelyabinsk, Russia",
+        "established": 1932,
+        "certification": "ISO 9001:2015",
+        "productionCapacity": "500000 tons/year",
+        "productTypes": ["steel", "aluminum", "copper", "gold", "silver", "alloys"],
+        "furnaces": {
+            "blastFurnaces": 3,
+            "electricArcFurnaces": 2,
+            "rollingMills": 5
+        }
+    }
+}
