@@ -80,31 +80,7 @@ module.exports = app => {
                 });
             }
             
-            let product;
-            
-            if (type) {
-                switch(type.toLowerCase()) {
-                    case 'steel':
-                        product = MetalProduct.createSteel(name);
-                        break;
-                    case 'aluminum':
-                        product = MetalProduct.createAluminum(name);
-                        break;
-                    case 'copper':
-                        product = MetalProduct.createCopper(name);
-                        break;
-                    case 'gold':
-                        product = MetalProduct.createGold(name);
-                        break;
-                    case 'silver':
-                        product = MetalProduct.createSilver(name);
-                        break;
-                    default:
-                        product = MetalProduct.create(req.body);
-                }
-            } else {
-                product = MetalProduct.create(req.body);
-            }
+            const product = MetalProduct.create(req.body);
             
             const updatedProduct = {
                 id: product.id,
