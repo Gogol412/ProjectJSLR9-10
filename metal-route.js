@@ -1,9 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const MetalProduct = require('./metal-factory');
-const metalMethods = require('./metal-route');
-
-metalMethods(MetalProduct);
 
 const DATA_PATH = path.join(__dirname, '../data/metal-data.json');
 
@@ -48,7 +45,21 @@ module.exports = app => {
             const metalProductsData = readMetalData();
             const products = metalProductsData.map(data => {
                 const product = new MetalProduct(data);
-                return product.getInfo();
+                if (typeof product.getInfo === 'function') {
+                    return product.getInfo();
+                } else {
+                    return {
+                        id: product.id,
+                        name: product.name,
+                        type: product.type,
+                        weight: product.weight + ' kg',
+                        purity: product.purity + '%',
+                        pricePerKg: product.pricePerKg + ' RUB/kg',
+                        totalPrice: (product.weight * product.pricePerKg) + ' RUB',
+                        productionDate: product.productionDate,
+                        factory: product.factory || 'Unknown'
+                    };
+                }
             });
             res.json({
                 count: products.length,
@@ -95,30 +106,28 @@ module.exports = app => {
                 product = MetalProduct.create(req.body);
             }
             
-            if (weight !== undefined) product.setWeight(weight);
-            if (purity !== undefined) product.updatePurity(purity);
-            if (pricePerKg !== undefined) product.changePricePerKg(pricePerKg);
-            if (factory !== undefined) product.factory = factory;
-            
-            const metalProducts = readMetalData();
-            
-            metalProducts.push({
+            const updatedProduct = {
                 id: product.id,
                 name: product.name,
                 type: product.type,
-                weight: product.weight,
-                purity: product.purity,
-                pricePerKg: product.pricePerKg,
+                weight: weight !== undefined ? weight : product.weight,
+                purity: purity !== undefined ? purity : product.purity,
+                pricePerKg: pricePerKg !== undefined ? pricePerKg : product.pricePerKg,
                 productionDate: product.productionDate,
-                factory: product.factory,
+                factory: factory !== undefined ? factory : product.factory,
                 alloys: product.alloys || {}
-            });
+            };
+            
+            const metalProducts = readMetalData();
+            
+            metalProducts.push(updatedProduct);
             
             writeMetalData(metalProducts);
             
+            const responseProduct = new MetalProduct(updatedProduct);
             res.status(201).json({
                 message: 'Metal product created successfully',
-                product: product.getInfo()
+                product: responseProduct
             });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -137,7 +146,7 @@ module.exports = app => {
             }
             
             const product = new MetalProduct(productData);
-            res.json(product.getInfo());
+            res.json(product);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -175,7 +184,7 @@ module.exports = app => {
             const updatedProduct = new MetalProduct(metalProducts[index]);
             res.json({
                 message: 'Metal product updated successfully',
-                product: updatedProduct.getInfo()
+                product: updatedProduct
             });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -194,37 +203,28 @@ module.exports = app => {
             }
             
             const productData = metalProducts[index];
-            const product = new MetalProduct(productData);
             
-            if (req.body.name !== undefined) product.name = req.body.name;
-            if (req.body.type !== undefined) product.type = req.body.type;
-            if (req.body.weight !== undefined) product.setWeight(req.body.weight);
-            if (req.body.purity !== undefined) product.updatePurity(req.body.purity);
-            if (req.body.pricePerKg !== undefined) product.changePricePerKg(req.body.pricePerKg);
-            if (req.body.factory !== undefined) product.factory = req.body.factory;
-            
+            if (req.body.name !== undefined) productData.name = req.body.name;
+            if (req.body.type !== undefined) productData.type = req.body.type;
+            if (req.body.weight !== undefined) productData.weight = req.body.weight;
+            if (req.body.purity !== undefined) productData.purity = req.body.purity;
+            if (req.body.pricePerKg !== undefined) productData.pricePerKg = req.body.pricePerKg;
+            if (req.body.factory !== undefined) productData.factory = req.body.factory;
+
             if (req.body.addAlloy) {
                 const { element, percentage } = req.body.addAlloy;
-                product.addAlloy(element, percentage);
+                if (!productData.alloys) productData.alloys = {};
+                productData.alloys[element] = percentage;
             }
             
-            metalProducts[index] = {
-                id: product.id,
-                name: product.name,
-                type: product.type,
-                weight: product.weight,
-                purity: product.purity,
-                pricePerKg: product.pricePerKg,
-                productionDate: product.productionDate,
-                factory: product.factory,
-                alloys: product.alloys || {}
-            };
+            metalProducts[index] = productData;
             
             writeMetalData(metalProducts);
             
+            const product = new MetalProduct(productData);
             res.json({
                 message: 'Metal product partially updated',
-                product: product.getInfo()
+                product: product
             });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -248,7 +248,7 @@ module.exports = app => {
             
             res.json({
                 message: 'Metal product deleted successfully',
-                product: deletedProduct.getInfo()
+                product: deletedProduct
             });
         } catch (error) {
             res.status(500).json({ error: error.message });
