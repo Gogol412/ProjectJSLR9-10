@@ -1,0 +1,16 @@
+[
+  {
+    "brand": "Tesla",
+    "model": "Model S",
+    "year": 2022,
+    "isElectric": true,
+    "features": ["Autopilot", "Ludicrous Mode", "Supercharging"]
+  },
+  {
+    "brand": "Toyota",
+    "model": "Camry",
+    "year": 2018,
+    "isElectric": false,
+    "features": ["Bluetooth", "Backup Camera", "Cruise Control"]
+  }
+]
