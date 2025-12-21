@@ -1,9 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const AlcoholProduct = require('./alcohol-factory');
-const alcoholMethods = require('./alcohol-route');
-
-alcoholMethods(AlcoholProduct);
 
 const DATA_PATH = path.join(__dirname, '../data/alcohol-data.json');
 
@@ -38,13 +35,26 @@ function writeAlcoholData(alcoholProducts) {
 }
 
 module.exports = app => {
-   
     app.get('/alcohol', (req, res) => {
         try {
             const alcoholProductsData = readAlcoholData();
             const products = alcoholProductsData.map(data => {
                 const product = new AlcoholProduct(data);
-                return product.getInfo();
+                if (typeof product.getInfo === 'function') {
+                    return product.getInfo();
+                } else {
+                    return {
+                        id: product.id,
+                        name: product.name,
+                        type: product.type,
+                        volume: product.volume + 'L',
+                        strength: product.strength + '%',
+                        price: product.price + ' RUB',
+                        productionDate: product.productionDate,
+                        aging: product.aging || 0,
+                        factory: product.factory || 'Unknown'
+                    };
+                }
             });
             res.json({
                 count: products.length,
@@ -88,31 +98,28 @@ module.exports = app => {
                 product = AlcoholProduct.create(req.body);
             }
             
-            if (volume !== undefined) product.changeVolume(volume);
-            if (strength !== undefined) product.updateStrength(strength);
-            if (price !== undefined) product.setPrice(price);
-            if (aging !== undefined) product.addAging(aging);
-            if (factory !== undefined) product.factory = factory;
-            
-            const alcoholProducts = readAlcoholData();
-            
-            alcoholProducts.push({
+            const updatedProduct = {
                 id: product.id,
                 name: product.name,
                 type: product.type,
-                volume: product.volume,
-                strength: product.strength,
-                price: product.price,
+                volume: volume !== undefined ? volume : product.volume,
+                strength: strength !== undefined ? strength : product.strength,
+                price: price !== undefined ? price : product.price,
                 productionDate: product.productionDate,
-                aging: product.aging,
-                factory: product.factory
-            });
+                aging: aging !== undefined ? aging : product.aging,
+                factory: factory !== undefined ? factory : product.factory
+            };
+            
+            const alcoholProducts = readAlcoholData();
+            
+            alcoholProducts.push(updatedProduct);
             
             writeAlcoholData(alcoholProducts);
             
+            const responseProduct = new AlcoholProduct(updatedProduct);
             res.status(201).json({
                 message: 'Alcohol product created successfully',
-                product: product.getInfo()
+                product: responseProduct
             });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -131,7 +138,7 @@ module.exports = app => {
             }
             
             const product = new AlcoholProduct(productData);
-            res.json(product.getInfo());
+            res.json(product);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -169,7 +176,7 @@ module.exports = app => {
             const updatedProduct = new AlcoholProduct(alcoholProducts[index]);
             res.json({
                 message: 'Alcohol product updated successfully',
-                product: updatedProduct.getInfo()
+                product: updatedProduct
             });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -188,33 +195,23 @@ module.exports = app => {
             }
             
             const productData = alcoholProducts[index];
-            const product = new AlcoholProduct(productData);
             
-            if (req.body.name !== undefined) product.name = req.body.name;
-            if (req.body.type !== undefined) product.type = req.body.type;
-            if (req.body.volume !== undefined) product.changeVolume(req.body.volume);
-            if (req.body.strength !== undefined) product.updateStrength(req.body.strength);
-            if (req.body.price !== undefined) product.setPrice(req.body.price);
-            if (req.body.aging !== undefined) product.addAging(req.body.aging);
-            if (req.body.factory !== undefined) product.factory = req.body.factory;
+            if (req.body.name !== undefined) productData.name = req.body.name;
+            if (req.body.type !== undefined) productData.type = req.body.type;
+            if (req.body.volume !== undefined) productData.volume = req.body.volume;
+            if (req.body.strength !== undefined) productData.strength = req.body.strength;
+            if (req.body.price !== undefined) productData.price = req.body.price;
+            if (req.body.aging !== undefined) productData.aging = req.body.aging;
+            if (req.body.factory !== undefined) productData.factory = req.body.factory;
             
-            alcoholProducts[index] = {
-                id: product.id,
-                name: product.name,
-                type: product.type,
-                volume: product.volume,
-                strength: product.strength,
-                price: product.price,
-                productionDate: product.productionDate,
-                aging: product.aging,
-                factory: product.factory
-            };
+            alcoholProducts[index] = productData;
             
             writeAlcoholData(alcoholProducts);
             
+            const product = new AlcoholProduct(productData);
             res.json({
                 message: 'Alcohol product partially updated',
-                product: product.getInfo()
+                product: product
             });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -238,7 +235,7 @@ module.exports = app => {
             
             res.json({
                 message: 'Alcohol product deleted successfully',
-                product: deletedProduct.getInfo()
+                product: deletedProduct
             });
         } catch (error) {
             res.status(500).json({ error: error.message });
