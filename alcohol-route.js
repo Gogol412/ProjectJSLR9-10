@@ -75,28 +75,8 @@ module.exports = app => {
                 });
             }
             
-            let product;
-            
-            if (type) {
-                switch(type.toLowerCase()) {
-                    case 'vodka':
-                        product = AlcoholProduct.createVodka(name);
-                        break;
-                    case 'whiskey':
-                        product = AlcoholProduct.createWhiskey(name);
-                        break;
-                    case 'beer':
-                        product = AlcoholProduct.createBeer(name);
-                        break;
-                    case 'wine':
-                        product = AlcoholProduct.createWine(name);
-                        break;
-                    default:
-                        product = AlcoholProduct.create(req.body);
-                }
-            } else {
-                product = AlcoholProduct.create(req.body);
-            }
+            // Просто используем AlcoholProduct.create()
+            const product = AlcoholProduct.create(req.body);
             
             const updatedProduct = {
                 id: product.id,
