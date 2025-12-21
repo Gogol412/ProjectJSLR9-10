@@ -1,0 +1,53 @@
+{
+    "alcoholProducts": [
+        {
+            "id": "alc-1736935200000",
+            "name": "Russian Standard",
+            "type": "vodka",
+            "volume": 0.7,
+            "strength": 40,
+            "price": 850,
+            "productionDate": "2024-01-15T10:30:00Z",
+            "factory": "Vodka Premium Moscow"
+        },
+        {
+            "id": "alc-1736935260000",
+            "name": "Johnnie Walker Black Label",
+            "type": "whiskey",
+            "volume": 0.7,
+            "strength": 43,
+            "price": 3200,
+            "productionDate": "2023-06-10T09:15:00Z",
+            "aging": 12,
+            "factory": "Scottish Distillery"
+        },
+        {
+            "id": "alc-1736935320000",
+            "name": "Baltika 7",
+            "type": "beer",
+            "volume": 0.5,
+            "strength": 5.5,
+            "price": 95,
+            "productionDate": "2024-01-14T16:45:00Z",
+            "factory": "Baltika Brewery"
+        },
+        {
+            "id": "alc-1736935380000",
+            "name": "Sauvignon Blanc",
+            "type": "wine",
+            "volume": 0.75,
+            "strength": 12.5,
+            "price": 650,
+            "productionDate": "2023-10-20T14:20:00Z",
+            "factory": "French Winery"
+        }
+    ],
+    "factoryInfo": {
+        "name": "Alcohol Production Group",
+        "location": "Moscow, Russia",
+        "established": 1990,
+        "license": "ALC-2024-RU-001",
+        "productionCapacity": "100000 liters/month",
+        "productTypes": ["vodka", "whiskey", "beer", "wine", "liquer"]
+    }
+}
