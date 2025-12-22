@@ -1,0 +1,71 @@
+[
+    {
+        "id": 1,
+        "transactionId": "TRX-2024-001",
+        "accountId": 1,
+        "accountNumber": "40817810099910004312",
+        "type": "deposit",
+        "amount": 50000.00,
+        "currency": "RUB",
+        "description": "Пополнение счета через банкомат",
+        "status": "completed",
+        "isFraudulent": false,
+        "timestamp": "2024-01-20T14:30:25.123Z",
+        "tags": [
+            "atm",
+            "cash"
+        ]
+    },
+    {
+        "id": 2,
+        "transactionId": "TRX-2024-002",
+        "accountId": 1,
+        "accountNumber": "40817810099910004312",
+        "type": "withdrawal",
+        "amount": 15000.50,
+        "currency": "RUB",
+        "description": "Снятие наличных в отделении",
+        "status": "completed",
+        "isFraudulent": false,
+        "timestamp": "2024-01-25T10:15:00.000Z",
+        "tags": [
+            "branch",
+            "cash"
+        ]
+    },
+    {
+        "id": 3,
+        "transactionId": "TRX-2024-003",
+        "accountId": 2,
+        "accountNumber": "40817810288820005678",
+        "type": "transfer",
+        "amount": 10000.00,
+        "currency": "USD",
+        "description": "Международный перевод компании ABC Corp",
+        "status": "pending",
+        "isFraudulent": true,
+        "timestamp": "2024-02-22T16:45:30.500Z",
+        "tags": [
+            "international",
+            "business",
+            "flagged"
+        ]
+    },
+    {
+        "id": 4,
+        "transactionId": "TRX-2024-004",
+        "accountId": 3,
+        "accountNumber": "40817810377730008901",
+        "type": "payment",
+        "amount": 7500.75,
+        "currency": "EUR",
+        "description": "Оплата коммунальных услуг",
+        "status": "completed",
+        "isFraudulent": false,
+        "timestamp": "2024-03-12T09:20:15.789Z",
+        "tags": [
+            "utility",
+            "recurring"
+        ]
+    }
+]

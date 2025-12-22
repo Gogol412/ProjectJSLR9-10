@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "accountNumber": "40817810099910004312",
+    "accountHolder": "Иванов Иван Иванович",
+    "balance": 150000.75,
+    "currency": "RUB",
+    "isActive": true,
+    "accountType": "current",
+    "createdAt": "2024-01-15T10:30:00.000Z",
+    "transactions": [
+      "TRX-2024-001",
+      "TRX-2024-002",
+      "TRX-2024-003"
+    ]
+  },
+  {
+    "id": 2,
+    "accountNumber": "40817810288820005678",
+    "accountHolder": "Петрова Анна Сергеевна",
+    "balance": 75000.50,
+    "currency": "USD",
+    "isActive": true,
+    "accountType": "savings",
+    "createdAt": "2024-02-20T14:45:00.000Z",
+    "transactions": [
+      "TRX-2024-004",
+      "TRX-2024-005"
+    ]
+  },
+  {
+    "id": 3,
+    "accountNumber": "40817810377730008901",
+    "accountHolder": "Сидоров Алексей Петрович",
+    "balance": 250000.00,
+    "currency": "EUR",
+    "isActive": false,
+    "accountType": "deposit",
+    "createdAt": "2024-03-10T09:15:00.000Z",
+    "transactions": [
+      "TRX-2024-006"
+    ]
+  }
+]
