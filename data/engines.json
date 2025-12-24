@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "model": "2JZ-GTE",
+    "type": "Рядный 6-цилиндровый",
+    "description": "Легендарный японский двигатель с большим потенциалом тюнинга",
+    "isTurbo": true,
+    "createdAt": "1991-10-01T10:00:00Z",
+    "applications": [
+      "Toyota Supra",
+      "Toyota Aristo"
+    ]
+  },
+  {
+    "id": 2,
+    "model": "LS3",
+    "type": "V-образный 8-цилиндровый",
+    "description": "Надежный атмосферный двигатель Chevrolet",
+    "isTurbo": false,
+    "createdAt": "2008-01-15T08:30:00Z",
+    "applications": [
+      "Chevrolet Corvette",
+      "Chevrolet Camaro"
+    ]
+  }
+]
