@@ -1,0 +1,14 @@
+[
+    {
+        "name": "JavaScript",
+        "year": 1995,
+        "isOOP": true,
+        "popularPatterns": ["Observer", "Module", "Singleton"]
+    },
+    {
+        "name": "C#",
+        "year": 2010,
+        "isOOP": true,
+        "popularPatterns": ["Observer", "Funtional", "Else"]
+    }
+]
